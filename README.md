@@ -8,7 +8,7 @@ Technical stack used in this project consists of:
 4. Junit 5
 
 The application can be run from the command line without any
-dependencies or database’s required to run your application. (Other than maven for spring boot dependencies  and packaging and Java 9). There is no dependency on databases as H2(in memory database ) has been used to initialise all the test data.
+dependencies or database’s required to run application. (Other than maven for spring boot dependencies  and packaging and Java 9). There is no dependency on databases as H2(in memory database ) has been used to initialise all the test data.
 
 ## Steps to build the application
 
