@@ -29,6 +29,17 @@ import com.gildedrose.server.repository.OrderRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * This class contains test cases using Mockmvc.WebApplicationcontext is mocked
+ * here. MockMvc create mocks calls to dispatcher servlet container to make api
+ * call in real time.This is basically used to do server side testing.
+ * 
+ * This class contains test cases to make api calls to both items api and orders
+ * api.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Slf4j
@@ -53,7 +64,7 @@ class ServerApplicationTests {
 	}
 
 	@Test
-	public void getAllItems() throws Exception {
+	public void shouldGetAllItemsListFound() throws Exception {
 		MvcResult result = this.mockMvc.perform(get("/items").accept(MediaType.APPLICATION_JSON)).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String content = response.getContentAsString();
@@ -62,7 +73,7 @@ class ServerApplicationTests {
 	}
 
 	@Test
-	public void getItemsWithId() throws Exception {
+	public void shouldGetItemFoundForCorrectItemId() throws Exception {
 		itemRepo.findAll().forEach(item -> {
 			Long id = item.getId();
 			try {
@@ -76,7 +87,7 @@ class ServerApplicationTests {
 
 	@Test
 	@WithUserDetails()
-	public void placeOrder() throws Exception {
+	public void ShouldGetOrerCreatedWithCorrectUserDetails() throws Exception {
 		this.mockMvc.perform(post("/orders")
 				.content(this.objectMapper.writeValueAsBytes(OrderForm.builder().id(1L).quantity(1).build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
@@ -84,7 +95,7 @@ class ServerApplicationTests {
 
 	@Test
 	@WithUserDetails()
-	public void placeOrderwithWrongItemId() throws Exception {
+	public void ShouldGetItemNotFoundExceptionForWrongOrderId() throws Exception {
 		this.mockMvc.perform(post("/orders")
 				.content(this.objectMapper.writeValueAsBytes(OrderForm.builder().id(100L).quantity(1).build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(404));
@@ -92,7 +103,7 @@ class ServerApplicationTests {
 
 	@Test
 	@WithUserDetails()
-	public void placeOrderwithZeroItemQuantity() throws Exception {
+	public void ShouldGetBadRequestExceptionForOrderwithZeroItemQuantity() throws Exception {
 		this.mockMvc.perform(post("/orders")
 				.content(this.objectMapper.writeValueAsBytes(OrderForm.builder().id(1L).quantity(0).build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(400));
@@ -100,7 +111,7 @@ class ServerApplicationTests {
 
 	@Test
 	@WithUserDetails()
-	public void getOrderWithId() throws Exception {
+	public void ShouldGetOrderFoundForCorrectOrderId() throws Exception {
 		orderRepo.findAll().forEach(order -> {
 			Long id = order.getOrderId();
 			try {
@@ -115,7 +126,7 @@ class ServerApplicationTests {
 
 	@Test
 	@WithUserDetails()
-	public void getOrderWithWrongId() throws Exception {
+	public void ShouldGetOrderNotFoundExceptionForWrongOrderId() throws Exception {
 		orderRepo.findAll().forEach(order -> {
 			Long id = order.getOrderId() + 10;
 			try {
@@ -129,7 +140,7 @@ class ServerApplicationTests {
 	}
 
 	@Test
-	public void getAuthToken() throws Exception {
+	public void ShouldGetAuthToken() throws Exception {
 		try {
 			this.mockMvc.perform(post("/auth/signIn")
 					.content(

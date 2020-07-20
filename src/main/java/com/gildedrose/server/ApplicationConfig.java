@@ -11,6 +11,14 @@ import com.gildedrose.server.domain.SurgePriceImpl;
 
 import lombok.Data;
 
+/**
+ * This is a configuration class to configure surgeprice bean with externalised
+ * configurations. viewcounts,surgeduration and surgeIncrementPercentage are all
+ * externalized coming from application.properties file.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @Configuration
 @Data
 @ConfigurationProperties(prefix = "app")

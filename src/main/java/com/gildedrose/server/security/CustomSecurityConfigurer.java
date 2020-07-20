@@ -15,6 +15,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.gildedrose.server.security.jwt.JwtAuthenticationFilter;
 
+/**
+ * webSecurityConfigurer has been customized here to allow stateless session
+ * management and manage which which calls need to be authenticated. A
+ * JwtAuthenticationFilter has been initialized here which will intercept all
+ * the authenticated calls to check for auth token. If auth token is invalid, it
+ * will throw authentication exception.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @EnableWebSecurity
 @Configuration
 public class CustomSecurityConfigurer extends WebSecurityConfigurerAdapter {

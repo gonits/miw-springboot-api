@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class UserLoginForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	String userName;
-	String password;
+	private String userName;
+	private String password;
 }

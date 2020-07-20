@@ -27,6 +27,16 @@ import com.gildedrose.server.exceptionhandler.OrderNotFoundException;
 import com.gildedrose.server.repository.ItemRepository;
 import com.gildedrose.server.repository.OrderRepository;
 
+/**
+ * This is rest api to place order for individual item. It accepts an order form
+ * which contains Item id and quantity needed for that item. This api call is
+ * authenticated. Caller must send authorization header with value of auth
+ * token. If auth token is not present, the api call will fail giving 401
+ * unauthorized error.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @RestController
 @RequestMapping("orders")
 @CrossOrigin
@@ -41,7 +51,7 @@ public class OrderController {
 	SurgePrice surgePriceImpl;
 
 	@PostMapping("")
-	public ResponseEntity<?> buy(@Valid @RequestBody OrderForm orderForm, @AuthenticationPrincipal User user)
+	public ResponseEntity<Order> buy(@Valid @RequestBody OrderForm orderForm, @AuthenticationPrincipal User user)
 			throws ItemNotFoundException, ItemLowInStockException, BadRequestException, URISyntaxException {
 		Item requestedItem = itemRepo.findById(orderForm.getId())
 				.orElseThrow(() -> new ItemNotFoundException("Request Item Id does not exist"));
@@ -61,7 +71,7 @@ public class OrderController {
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<?> order(@PathVariable Long id) throws OrderNotFoundException {
+	public ResponseEntity<Order> order(@PathVariable Long id) throws OrderNotFoundException {
 		return ResponseEntity.ok().body(orderRepo.findById(id)
 				.orElseThrow(() -> new OrderNotFoundException("Request Order Id does not exist")));
 	}

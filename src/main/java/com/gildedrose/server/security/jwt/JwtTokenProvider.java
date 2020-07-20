@@ -24,6 +24,14 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * This is a utility class to create, validate and extract information from JWT
+ * token. Secret key and token expiry time is coming from externalized
+ * configurations.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @Component
 @Slf4j
 public class JwtTokenProvider {

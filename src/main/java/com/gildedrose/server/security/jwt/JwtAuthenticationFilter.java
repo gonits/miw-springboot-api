@@ -14,6 +14,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
+/**
+ * This filter will intercept calls to check Authorization header and will
+ * validate auth token. If Auth token is invalid authentication exception is
+ * thrown else authentication principal is set in spring security context for
+ * the authenticated user.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @Component
 public class JwtAuthenticationFilter extends GenericFilterBean {
 	@Autowired

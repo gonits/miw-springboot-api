@@ -16,6 +16,14 @@ import com.gildedrose.server.domain.SurgePrice;
 import com.gildedrose.server.exceptionhandler.ItemNotFoundException;
 import com.gildedrose.server.repository.ItemRepository;
 
+/**
+ * This is rest api to show items list and details of individual items. This api
+ * gives name, id, price, stock, description for each items whose stock is
+ * greater than zero.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @RestController
 @RequestMapping("items")
 @CrossOrigin
@@ -38,7 +46,7 @@ public class ItemController {
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<?> item(@PathVariable Long id) throws ItemNotFoundException {
+	public ResponseEntity<Item> item(@PathVariable Long id) throws ItemNotFoundException {
 		return ResponseEntity.ok().body(
 				itemRepo.findById(id).orElseThrow(() -> new ItemNotFoundException("Request Item Id does not exist")));
 	}

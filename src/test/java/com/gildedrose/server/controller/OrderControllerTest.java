@@ -1,6 +1,6 @@
 package com.gildedrose.server.controller;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.net.URISyntaxException;
@@ -24,6 +24,12 @@ import com.gildedrose.server.exceptionhandler.OrderNotFoundException;
 import com.gildedrose.server.repository.ItemRepository;
 import com.gildedrose.server.repository.OrderRepository;
 
+/**
+ * This class contains Unit test cases for OrderController.
+ * 
+ * @author Nitika Goel
+ *
+ */
 public class OrderControllerTest {
 	@Mock
 	ItemRepository itemRepo;
@@ -41,12 +47,12 @@ public class OrderControllerTest {
 	}
 
 	@Test
-	public void testOrderPlacement()
+	public void shouldPlaceOrderAndReturnOrderCreated()
 			throws ItemNotFoundException, ItemLowInStockException, BadRequestException, URISyntaxException {
 		Item item1 = Item.builder().name("Fitness-Tracker-Band").price(100).stock(20)
 				.description("Fitness tracker,24 hour continuous Heart rate and Blood pressure monitor").id(1L).build();
 		User user = User.builder().userName("Nitika").password("password").build();
-		Order newOrder = Order.builder().itemId(item1.getId())
+		Order newOrder = Order.builder().itemId(item1.getId()).orderId(100L)
 				.itemPrice(surgePriceImpl.getSurgePriceForItem(item1, false)).userName(user.getUsername()).quantity(1)
 				.build();
 		when(itemRepo.findById(1L)).thenReturn(Optional.of(item1));
@@ -54,14 +60,14 @@ public class OrderControllerTest {
 		when(itemRepo.save(item1)).thenReturn(item1);
 		when(orderRepo.save(newOrder)).thenReturn(newOrder);
 		OrderForm form = new OrderForm(1L, 1);
-		ResponseEntity<?> response = controller.buy(form, user);
-		assertNotNull(response.getBody());
+		ResponseEntity<Order> response = controller.buy(form, user);
+		assertEquals(201, response.getStatusCodeValue());
 
 	}
 
 	@Test
-	public void testGetOrderById() throws ItemNotFoundException, ItemLowInStockException, BadRequestException,
-			URISyntaxException, OrderNotFoundException {
+	public void shouldReturnOrderForOrderId() throws ItemNotFoundException, ItemLowInStockException,
+			BadRequestException, URISyntaxException, OrderNotFoundException {
 		Item item1 = Item.builder().name("Fitness-Tracker-Band").price(100).stock(20)
 				.description("Fitness tracker,24 hour continuous Heart rate and Blood pressure monitor").id(1L).build();
 
@@ -70,8 +76,8 @@ public class OrderControllerTest {
 				.itemPrice(surgePriceImpl.getSurgePriceForItem(item1, false)).userName(user.getUsername()).quantity(1)
 				.orderId(10L).build();
 		when(orderRepo.findById(10L)).thenReturn(Optional.of(newOrder));
-		ResponseEntity<?> response = controller.order(10L);
-		assertNotNull(response.getBody());
+		ResponseEntity<Order> response = controller.order(10L);
+		assertEquals(10L, response.getBody().getOrderId());
 
 	}
 

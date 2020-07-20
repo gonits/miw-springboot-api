@@ -14,6 +14,14 @@ import com.gildedrose.server.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * This class is called after application is started to populate entities object
+ * with some test data. Both Item and User entities have been populated here
+ * with test data.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @Component
 @Slf4j
 public class DataInitializer implements CommandLineRunner {

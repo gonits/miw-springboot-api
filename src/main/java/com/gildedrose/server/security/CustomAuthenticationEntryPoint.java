@@ -11,6 +11,14 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * AuthenticationEntryPoint interface has been provided custom implementation to
+ * send custom message in authentication failures and also log the same on
+ * server side.
+ * 
+ * @author Nitika Goel
+ *
+ */
 @Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

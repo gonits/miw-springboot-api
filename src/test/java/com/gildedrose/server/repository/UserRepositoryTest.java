@@ -17,9 +17,9 @@ public class UserRepositoryTest {
 	UserRepository userRepo;
 
 	@Test
-	public void findByUserNameTest() {
+	public void ShouldfindByUserName() {
 		User saved = this.userRepo.save(User.builder().userName("test").password("password").build());
-		User u = this.userRepo.getOne(saved.getId());
+		User u = this.userRepo.findByUserName(saved.getUsername()).get();
 		assertThat(u.getUsername()).isEqualTo("test");
 		assertThat(u.getId()).isNotNull();
 		assertThat(u.getPassword()).isEqualTo("password");
