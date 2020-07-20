@@ -18,7 +18,7 @@ Prerequisits to build and deploy the application:
 
 steps to build the application
 
-1. git clone https://github.com/gonits/groups-management-application.git
+1. git clone https://github.com/gonits/miw-springboot-api.git
 2. cd to project (project checked out location)
 3. mvn package or mvn clean install : This will download all the dependencies and run test cases. Once test cases are successful, a jar file will be generated in target folder.
 
