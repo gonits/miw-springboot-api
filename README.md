@@ -18,9 +18,10 @@ Prerequisits to build and deploy the application:
 
 steps to build the application
 
-1. git clone https://github.com/gonits/miw-springboot-api.git
+1. run command: git clone https://github.com/gonits/miw-springboot-api.git
 2. cd to project (project checked out location)
-3. mvn package or mvn clean install : This will download all the dependencies and run test cases. Once test cases are successful, a jar file will be generated in target folder.
+3. run command : mvn package or mvn clean install
+This will download all the dependencies and run test cases. Once test cases are successful, a jar file will be generated in target folder.
 
 steps to run the applcation:
 
@@ -30,17 +31,17 @@ steps to run the applcation:
 
 ## Surge Pricing:
 
-Items Api surge pricing strategy to change the price of items during high demand like we see in case of using Uber or any other cab services.
+Items Api uses surge pricing strategy to change the price of items during high demand like we see in case of using Uber or any other cab services.
 
 Surge pricing will apply when an item has been viewed for certain number of times(e.g.10 times) in certain time period(e.g 1 hour). If this condition meets for an item, then its price will increase by certian ammount (e.g 10%). Order placed during surge window will also use increased prices to place order.
 
-To implement surge pricing in development server, an in memory data structure (ConcurrentMap) can be used to store all the views of each item in concurrentHashMap(thread safe). Everytime an item is viewed, this map will be updated to store the view(timestamp) and will be checked for all the previous views stored. The timestamps stored if are within range of 1 hour and count of such views are greater than or equal to 10 then surge pricing will apply to that item.
+To implement surge pricing in development server, an in memory data structure (ConcurrentMap<Long,CoptOnWriteArrayList>) can be used to store all the views of each item in concurrentHashMap(thread safe). Everytime an item is viewed, this map will be updated to store the view(timestamp) and will be checked for all the views stored. The timestamps of all stored views if is within range of 1 hour and count of such views are greater than or equal to 10 then surge pricing will apply to that item.
 
 Orders api is hit in this timeframe will also fetch the same surge price but will not update the concurrent haspmap to add a view.
 
 ## Choice of Data format:
 
-Restful apis have been implemented using json data format for sending request data and receiving response as Json apis help to create consistent data model which can be leveraged by multiple api consumers.
+Restful apis have been implemented using json data format for sending request data and receiving response.Json apis help to create consistent data model which can be leveraged by multiple api consumers.
 JSON is a completely language-independent text format that is mainly used to transmit data between a server and a browser.Also JSON is more lightweight and less verbose format, and it’s easier to read and write as well.
 
 Example of Request and Reponse:
@@ -55,7 +56,7 @@ Respone:
 As it can be seen above, request has been sent using json format for username and password and response has been received in Json format containing token and username
 
 ## Authentication Mechanism
-I have chosen JWT(Json web token) as authenticaton mechanism for the api calls as JWT is a self contained token which has authetication information, expire time information, and other user defined claims digitally signed.A single token can be used with multiple backends and no cookies are required to be managed and session can be created as stateless. One more advantage of this solution is that we can withdraw access to the api at any time if we verify the user’s password has been compromised.
+I have chosen JWT(Json web token) as authenticaton mechanism for the api calls as JWT is a self contained token which has authetication information, expire time information, and other user defined claims digitally signed.A single token can be used with multiple backends and no cookies are required to be managed and session can be created as stateless. One more advantage of this solution is that we can withdraw access to the api at any time if we verify the user’s password has been compromised by generating a new token.
 
 ## Test Cases
 
